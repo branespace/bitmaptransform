@@ -1,0 +1,27 @@
+{
+  "name": "bitmapreader",
+  "version": "1.0.0",
+  "description": "Simple bitmap transformer",
+  "main": "index.js",
+  "directories": {
+    "test": "test",
+    "bin": "bin"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-mocha": "^2.1.3",
+    "mocha": "^2.3.0"
+  },
+  "scripts": {
+    "test": "mocha test"
+  },
+  "keywords": [
+    "bitmap",
+    "color",
+    "transformer"
+  ],
+  "author": "greg.irwin@gmail.com",
+  "license": "MIT"
+}
