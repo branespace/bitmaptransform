@@ -20,14 +20,14 @@ describe('bmpToJson', function () {
     });
     it('should have an id of BM', function () {
         // hex for BM
-        expect(result.id).to.be.equal('4d42');
+        expect(result.id).to.be.equal(19778);
     });
     it('should match original header', function () {
         var assembled = '';
         for (var i = 0; i < headerspec.length; i += 1) {
             assembled += result[headerspec[i].name];
         }
-        expect(assembled).to.equal('4d4200001de6000000000000003600000028');
+        expect(assembled).to.equal('197787654005440');
     });
     it('should select correct DIB format', function () {
         expect(result.dibtype).to.equal('DIBBITMAPINFOHEADER');
