@@ -39,6 +39,6 @@ describe('bmpToJson', function () {
         expect(result.pixelMap[49][49]).to.not.be.equal(null);
     });
     it('should set colors correctly', function(){
-        expect(result.pixelMap[32][32].blue).to.be.equal(255);
+        expect(result.pixelMap[29][32].blue).to.be.equal(255);
     });
 });
