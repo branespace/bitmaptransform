@@ -27,6 +27,14 @@ describe('bmpToJson', function () {
         for (var i = 0; i < headerspec.length; i += 1) {
             assembled += result[headerspec[i].name];
         }
-        expect(assembled).to.equal('4d4200001de60000000000000036');
+        expect(assembled).to.equal('4d4200001de6000000000000003600000028');
     });
+    it('should select correct DIB format', function () {
+        expect(result.dibtype).to.equal('DIBBITMAPINFOHEADER');
+    });
+    it('should get the correct row padding', function(){
+        expect(result.rowPadding).to.equal(24);
+    });
+    it('should have the correct size');
+    it('should set colors correctly');
 });
