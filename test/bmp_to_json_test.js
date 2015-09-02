@@ -33,8 +33,12 @@ describe('bmpToJson', function () {
         expect(result.dibtype).to.equal('DIBBITMAPINFOHEADER');
     });
     it('should get the correct row padding', function(){
-        expect(result.rowPadding).to.equal(24);
+        expect(result.rowPadding).to.equal(2);
     });
-    it('should have the correct size');
-    it('should set colors correctly');
+    it('should have the correct size', function(){
+        expect(result.pixelMap[49][49]).to.not.be.equal(null);
+    });
+    it('should set colors correctly', function(){
+        expect(result.pixelMap[32][32].blue).to.be.equal(255);
+    });
 });
