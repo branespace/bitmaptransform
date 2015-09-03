@@ -32,7 +32,7 @@ describe('bmpToJson', function () {
         expect(assembled).to.equal('197787654005440');
     });
     it('should select correct DIB format', function () {
-        expect(result.dibtype).to.equal('DIBBITMAPINFOHEADER');
+        expect(result.spec).to.not.equal(null);
     });
     it('should get the correct row padding', function(){
         expect(result.rowPadding).to.equal(2);
