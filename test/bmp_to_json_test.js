@@ -3,7 +3,8 @@
 var bmpToJson = require('../lib/bmp_to_json');
 var expect = require('chai').expect;
 var binReader = require('../lib/bin_file_operations').readBinFile;
-var headerspec = require('../lib/spec/header');
+var headerSpec = require('../lib/spec/header');
+var endianFunction = require('../lib/endian_functions');
 var bmp;
 var result;
 
@@ -11,7 +12,8 @@ describe('bmpToJson', function () {
     before(function (done) {
         binReader('test/50x50x24x0000FF.bmp', function (err, data) {
             bmp = data;
-            result = bmpToJson.bmpToJSON(bmp);
+            endianFunction.setFunctions();
+            result = bmpToJson.bmpToJSON(bmp, endianFunction);
             done();
         });
     });
@@ -24,13 +26,13 @@ describe('bmpToJson', function () {
     });
     it('should match original header', function () {
         var assembled = '';
-        for (var i = 0; i < headerspec.length; i += 1) {
-            assembled += result[headerspec[i].name];
+        for (var i = 0; i < headerSpec.length; i += 1) {
+            assembled += result[headerSpec[i].name];
         }
         expect(assembled).to.equal('197787654005440');
     });
     it('should select correct DIB format', function () {
-        expect(result.dibtype).to.equal('DIBBITMAPINFOHEADER');
+        expect(result.spec).to.not.equal(null);
     });
     it('should get the correct row padding', function(){
         expect(result.rowPadding).to.equal(2);

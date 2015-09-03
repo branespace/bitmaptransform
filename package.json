@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Simple bitmap transformer",
   "main": "index.js",
+  "bin": "bin",
   "directories": {
     "test": "test",
-    "bin": "bin"
+    "bin": "bin",
+    "lib": "lib"
   },
   "devDependencies": {
     "chai": "^3.2.0",
@@ -22,6 +24,19 @@
     "color",
     "transformer"
   ],
-  "author": "greg.irwin@gmail.com",
+  "author": {
+    "name": "Gregory Irwin",
+    "email": "greg.irwin@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Steven Chadwick",
+      "email": "sschadwick@gmail.com"
+    },
+    {
+      "name": "Kasim Siddiqui",
+      "email": "kasimsiddiqui@gmail.com"
+    },
+  ],
   "license": "MIT"
 }

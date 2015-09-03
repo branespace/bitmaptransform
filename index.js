@@ -3,6 +3,7 @@
 var binaryFileOps = require('./lib/bin_file_operations');
 var bmpToJSON = require('./lib/bmp_to_json');
 var JSONToBmp = require('./lib/json_to_bmp');
+var byteFunctions = require('./lib/endian_functions');
 
 //Make sure we have the parameters we need
 if(!process.argv[2]){
@@ -21,6 +22,8 @@ if(!process.argv[4]){
 
 console.log('Opening file: ' + process.argv[2]);
 
+byteFunctions.setFunctions();
+
 binaryFileOps.readBinFile(process.argv[2], processBMP);
 
 function processBMP(err, data){
@@ -35,11 +38,11 @@ function processBMP(err, data){
 
     rawBMP = data;
 
-    bmpJSON = bmpToJSON.bmpToJSON(rawBMP);
+    bmpJSON = bmpToJSON.bmpToJSON(rawBMP, byteFunctions);
 
     transformBMP(bmpJSON);
 
-    rawBMP = JSONToBmp.JSONtoBmp(bmpJSON);
+    rawBMP = JSONToBmp.JSONtoBmp(bmpJSON, byteFunctions);
 
     binaryFileOps.writeBinFile(process.argv[3], rawBMP, cleanUp);
 }
