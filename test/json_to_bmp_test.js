@@ -9,13 +9,15 @@ var headerspec = require('../lib/spec/header');
 var bmp;
 var result;
 var newResult;
+var endianFunction = require('../lib/endian_functions');
 
 describe('JSONToBmp', function () {
     before(function (done) {
         binReader('test/50x50x24x0000FF.bmp', function (err, data) {
             bmp = data;
-            result = bmpToJson.bmpToJSON(bmp);
-            newResult = jsonToBmp.JSONtoBmp(result);
+            endianFunction.setFunctions();
+            result = bmpToJson.bmpToJSON(bmp, endianFunction);
+            newResult = jsonToBmp.JSONtoBmp(result, endianFunction);
             done();
         });
     });
