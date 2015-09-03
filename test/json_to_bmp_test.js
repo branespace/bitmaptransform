@@ -44,8 +44,8 @@ describe('JSONToBmpPalette', function () {
     var bmpFilePalette;
     before(function (done) {
         binReader('test/palette-bitmap.bmp', function (err, data) {
-            bmpFilePalette = data;
             endianFunction.setFunctions();
+            bmpFilePalette = data;
             paletteJSON = bmpToJson.bmpToJSON(bmpFilePalette, endianFunction);
             paletteBMP = jsonToBmp.JSONtoBmp(paletteJSON, endianFunction);
             done();
