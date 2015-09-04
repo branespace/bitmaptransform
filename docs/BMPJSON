@@ -1,0 +1,27 @@
+1/2/4/8 bit color:
+  
+bmpJSON.colorPalette[i]
+    BYTE  .red    0-255  
+    BYTE  .green  0-255
+    BYTE  .blue   0-255
+    BYTE  .alpha  0-255
+
+bmpJSON.pixelMap[y][x]
+    BYTE  .index  0-255   //references i in colorPalette
+              or  0-16
+              or  0-4
+              or  0-2
+              
+24/32 bit color:
+
+bmpJSON.colorPalette IS NOT PRESENT
+
+bmpJSON.pixelMap[y][x]
+    BYTE  .red    0-255  
+    BYTE  .green  0-255
+    BYTE  .blue   0-255
+    BYTE  .alpha  0-255   //optional, do not set
+
+NOTE ON PIXEL MAP GRID
+    rows count up from the bottom at 0
+    columns count up from the left at 0
