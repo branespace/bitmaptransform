@@ -44,6 +44,30 @@ function processBMP(err, data){
     binaryFileOps.writeBinFile(process.argv[3], rawBMP, cleanUp);
 }
 
+function transformStyles(bitmapArray) {
+    //for palatte:
+
+    //color invert
+        //object.blue = 255 - object.blue
+        //object.red = 255 - object.red
+        //object.green = 255 - object.green
+
+    //grayscale(grayscaleConst)
+        //object.blue = object.blue * grayscaleConst
+        //object.red = object.red * grayscaleConst
+        //object.green = object.green * grayscaleConst
+
+    //scaleColor(color, scale)
+        //object.color = object.color * scale;
+
+    //for non-palatte:
+
+}
+
+function rotate90ccw(bitmapArray) {
+
+}
+
 function transformBMP(bmpJSON){
     console.log('Applying transformation...');
 
