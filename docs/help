@@ -1,0 +1,14 @@
+Bitmap Transformer:
+    Usage: node index.js <flags> <inputfile> <outputfile>
+
+        Description: Transforms the input file and writes it as the output file.
+
+        Inputfile:
+        Any uncompressed 1/2/4/8/16/24/32-bit bitmap
+
+        Outputfile:
+        The format is unchanged.  If the file exists, it wil be overwritten.
+
+        Flags
+        --help	View this help page
+        --list	View a list of transform options
