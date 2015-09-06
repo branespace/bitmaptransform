@@ -1,7 +1,7 @@
 # bitmaptransform
 
 This program can be called via
-```node index.js <original.bmp> <newfile.bmp> <transformation>```
+```node index.js <transformation> <original.bmp> <newfile.bmp>```
 
 Author: Greg Irwin
 
