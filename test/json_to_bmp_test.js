@@ -13,7 +13,7 @@ describe('JSONToBmpNonPalette', function () {
     var nonPaletteBMP;
     var bmpFileNonPalette;
     before(function (done) {
-        binReader('test/50x50x24x0000FF.bmp', function (err, data) {
+        binReader('test/non-palette-bitmap.bmp', function (err, data) {
             bmpFileNonPalette = data;
             endianFunction.setFunctions();
             nonPaletteJSON = bmpToJson.bmpToJSON(bmpFileNonPalette, endianFunction);
@@ -25,14 +25,14 @@ describe('JSONToBmpNonPalette', function () {
         expect(nonPaletteBMP).to.be.a('object');
     });
     it('should have the same length as the file', function () {
-        expect(nonPaletteBMP.length).to.be.equal(7654);
+        expect(nonPaletteBMP.length).to.be.equal(30054);
     });
     it('should match the original header', function () {
         var assembled = nonPaletteBMP.toString('hex', 0, 18);
-        expect(assembled).to.equal('424de61d0000000000003600000028000000');
+        expect(assembled).to.equal('424d66750000000000003600000028000000');
     });
     it('should match the dib', function () {
-        var DIB = '2800000032000000320000000100180000000000b01d000000000000000000000000000000000000';
+        var DIB = '280000006400000064000000010018000000000030750000120b0000120b00000000000000000000';
         var assembled = nonPaletteBMP.toString('hex', 0xe, 0x36);
         expect(assembled).to.equal(DIB);
     });

@@ -10,7 +10,7 @@ var result;
 
 describe('bmpToJson', function () {
     before(function (done) {
-        binReader('test/50x50x24x0000FF.bmp', function (err, data) {
+        binReader('test/palette-bitmap.bmp', function (err, data) {
             bmp = data;
             endianFunction.setFunctions();
             result = bmpToJson.bmpToJSON(bmp, endianFunction);
@@ -29,18 +29,18 @@ describe('bmpToJson', function () {
         for (var i = 0; i < headerSpec.length; i += 1) {
             assembled += result[headerSpec[i].name];
         }
-        expect(assembled).to.equal('197787654005440');
+        expect(assembled).to.equal('197781107800107840');
     });
     it('should select correct DIB format', function () {
         expect(result.spec).to.not.equal(null);
     });
     it('should get the correct row padding', function(){
-        expect(result.rowPadding).to.equal(2);
+        expect(result.rowPadding).to.equal(0);
     });
     it('should have the correct size', function(){
-        expect(result.pixelMap[49][49]).to.not.be.equal(null);
+        expect(result.pixelMap[99][99]).to.not.be.equal(null);
     });
     it('should set colors correctly', function(){
-        expect(result.pixelMap[29][32].blue).to.be.equal(255);
+        expect(result.colorPalette[3].blue).to.be.equal(49);
     });
 });
