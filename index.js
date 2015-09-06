@@ -5,27 +5,55 @@ var bmpToJSON = require('./lib/bmp_to_json');
 var JSONToBmp = require('./lib/json_to_bmp');
 var byteFunctions = require('./lib/endian_functions');
 
-var grayscale = require('./lib/filters/grayscale');
-var bluescale = require('./lib/filters/bluescale');
-var redscale = require('./lib/filters/redscale');
-var greenscale = require('./lib/filters/greenscale');
-var flipHoriz = require('./lib/filters/fliphoriz');
-var flipVert = require('./lib/filters/flipvert');
-var sepia = require('./lib/filters/sepia');
-var invert = require('./lib/filters/invert');
+var transformLoader = [
+    require('./lib/filters/grayscale'),
+    require('./lib/filters/bluescale'),
+    require('./lib/filters/redscale'),
+    require('./lib/filters/greenscale'),
+    require('./lib/filters/fliphoriz'),
+    require('./lib/filters/flipvert'),
+    require('./lib/filters/sepia'),
+    require('./lib/filters/invert')
+];
+
+var transforms = {};
+
+for (var i = 0; i < transformLoader.length; i++) {
+    transforms[transformLoader[i].shortFlag] = transformLoader[i];
+    transforms[transformLoader[i].longFlag] = transformLoader[i];
+}
+
+transformLoader.sort(function (a, b) {
+    if (a.shortFlag > b.shortFlag) {
+        return 1;
+    }
+    if (a.shortFlag < b.shortFlag) {
+        return -1;
+    }
+    // a must be equal to b
+    return 0;
+});
 
 //Make sure we have the parameters we need
+
 if (!process.argv[2]) {
-    console.log('No input filename provided: exiting.');
+    console.log('No operation provided: exiting.');
+    console.log(' Select --help for help or --list for options');
+    return false;
+}
+if (process.argv[2] === '--list') {
+    listTransforms();
+    return false;
+} else if (process.argv[2] === '--help') {
+    showHelp();
     return false;
 }
 if (!process.argv[3]) {
-    console.log('No output filename provided: exiting.');
+    console.log('No input filename provided: exiting.');
     return false;
 }
 if (!process.argv[4]) {
-    console.log('No operation provided: exiting.');
-    console.log(' Options: grayscale, invert, red, green, blue');
+    console.log('No output filename provided: exiting.');
     return false;
 }
 
@@ -35,7 +63,7 @@ console.log('Opening file: ' + process.argv[2]);
 byteFunctions.setFunctions();
 
 //Read in our bmp
-binaryFileOps.readBinFile(process.argv[2], processBMP);
+binaryFileOps.readBinFile(process.argv[3], processBMP);
 
 //Processes the bmp received from the reader function
 function processBMP(err, data) {
@@ -44,7 +72,7 @@ function processBMP(err, data) {
 
     if (err) {
         console.log(err);
-        emitError('Could not read ' + process.argv[2]);
+        emitError('Could not read ' + process.argv[3]);
         return false;
     }
 
@@ -56,43 +84,22 @@ function processBMP(err, data) {
     bmpJSON = bmpToJSON.bmpToJSON(rawBMP, byteFunctions);
 
     //Apply a transform to the JSON object
-    transformBMP(process.argv[4], bmpJSON);
+    transformBMP(process.argv[2], bmpJSON);
 
     //Convert JSON back to raw bmp
     rawBMP = JSONToBmp.JSONtoBmp(bmpJSON, byteFunctions);
 
     //Write the raw bitmap
-    binaryFileOps.writeBinFile(process.argv[3], rawBMP, cleanUp);
+    binaryFileOps.writeBinFile(process.argv[4], rawBMP, cleanUp);
 }
 
 //Dispatch the JSON object to the transform functions depending on which transform selected in argument
 function transformBMP(transformStyle, bmpJSON) {
     console.log('Applying transformation...');
 
-    if (transformStyle == 'grayscale' || transformStyle == '-gray') {
-        grayscale.convert(bmpJSON);
-        console.log('applying grayscale');
-    } else if (transformStyle == 'invert' || transformStyle == '-i') {
-        invert.convert(bmpJSON);
-        console.log('inverting image color');
-    } else if (transformStyle == 'sepia' || transformStyle == '-s') {
-        sepia.convert(bmpJSON);
-        console.log('applying sepia filter');
-    } else if (transformStyle == 'horizontal' || transformStyle == '-h') {
-        flipHoriz.convert(bmpJSON);
-        console.log('flipping image horizontally');
-    } else if (transformStyle == 'vertical' || transformStyle == '-v') {
-        flipVert.convert(bmpJSON);
-        console.log('flipping image vertically');
-    } else if (transformStyle == 'blue' || transformStyle == '-b') {
-        bluescale.convert(bmpJSON);
-        console.log('selecting blue channel');
-    } else if (transformStyle == 'red' || transformStyle == '-r') {
-        redscale.convert(bmpJSON);
-        console.log('selecting red channel');
-    } else if (transformStyle == 'green' || transformStyle == '-g') {
-        greenscale.convert(bmpJSON);
-        console.log('selecting green channel');
+    if (transforms.hasOwnProperty(transformStyle)) {
+        console.log('Selecting ' + transforms[transformStyle].name);
+        transforms[transformStyle].convert(bmpJSON);
     } else {
         console.log('Please select a valid transformation');
     }
@@ -112,4 +119,27 @@ function cleanUp(err) {
 function emitError(err, message) {
     console.log('ERROR: ' + message);
     console.log(err.errno + ': ' + err.message);
+}
+
+function showHelp() {
+    var fs = require('fs');
+    console.log(fs.readFileSync('./docs/help').toString('utf8'));
+}
+
+function listTransforms() {
+    var line,
+        i,
+        j,
+        spacing = '';
+
+    console.log('Available transformations:\n');
+    for (i = 0; i < transformLoader.length; i++) {
+        spacing = '';
+        line = 10 - transformLoader[i].longFlag.length;
+        for (j = 0; j < line; j++) {
+            spacing += ' ';
+        }
+        console.log('  ' + transformLoader[i].shortFlag + ' ' +
+            transformLoader[i].longFlag + spacing + transformLoader[i].desc);
+    }
 }
