@@ -4,8 +4,12 @@ var binaryFileOps = require('./lib/bin_file_operations');
 var bmpToJSON = require('./lib/bmp_to_json');
 var JSONToBmp = require('./lib/json_to_bmp');
 var byteFunctions = require('./lib/endian_functions');
+
 var grayscale = require('./lib/filters/grayscale');
-var blueChannel = require('./lib/filters/bluescale')
+var bluescale = require('./lib/filters/bluescale');
+var redscale = require('./lib/filters/redscale');
+var greenscale = require('./lib/filters/greenscale');
+//need to add requires for sepia, invert, vert, and horiz
 
 //Make sure we have the parameters we need
 if (!process.argv[2]) {
@@ -65,9 +69,18 @@ function transformBMP(transformStyle, bmpJSON) {
     if (transformStyle == 'grayscale' || transformStyle == '-gray') {
         grayscale.convert(bmpJSON);
         console.log('grayscale applied');
-    // } else if (transformStyle == 'invert' || transformStyle == '-in') {
-    //     invert.convert(bmpJSON);
-    //     console.log('image inverted');
+    } else if (transformStyle == 'invert' || transformStyle == '-i') {
+        invert.convert(bmpJSON);
+        console.log('inverting image color');
+    } else if (transformStyle == 'sepia' || transformStyle == '-s') {
+        sepia.convert(bmpJSON);
+        console.log('applying sepia filter');
+    } else if (transformStyle == 'horizontal' || transformStyle == '-h') {
+        horiz.convert(bmpJSON);
+        console.log('flipping image horizontally');
+    } else if (transformStyle == 'vertical' || transformStyle == '-v') {
+        vert.convert(bmpJSON);
+        console.log('flipping image vertically');
     } else if (transformStyle == 'blue' || transformStyle == '-b') {
         bluescale.convert(bmpJSON);
         console.log('selecting blue channel');
