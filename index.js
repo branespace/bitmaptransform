@@ -70,8 +70,7 @@ function processBMP(err, data) {
         bmpJSON;//JSON encoded bitmap
 
     if (err) {
-        console.log(err);
-        emitError('Could not read ' + process.argv[3]);
+        emitError(err, 'Could not read ' + process.argv[3]);
         return false;
     }
 
@@ -80,7 +79,12 @@ function processBMP(err, data) {
     rawBMP = data;
 
     //Convert bmp raw stream to JSON
-    bmpJSON = bmpToJSON.bmpToJSON(rawBMP, byteFunctions);
+    try {
+        bmpJSON = bmpToJSON.bmpToJSON(rawBMP, byteFunctions);
+    } catch (e) {
+        emitError(e, 'Error loading bitmap: exiting');
+        return false;
+    }
 
     //Apply a transform to the JSON object
     transformBMP(process.argv[2], bmpJSON);
@@ -107,10 +111,10 @@ function transformBMP(transformStyle, bmpJSON) {
 //Final operations after file write
 function cleanUp(err) {
     if (err) {
-        emitError(err, 'Could not write ' + process.argv[3]);
+        emitError(err, 'Could not write ' + process.argv[4]);
         return false;
     }
-    console.log('File successfully written: ' + process.argv[3]);
+    console.log('File successfully written: ' + process.argv[4]);
     console.log('Closing...');
 }
 
