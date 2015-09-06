@@ -4,6 +4,8 @@ var binaryFileOps = require('./lib/bin_file_operations');
 var bmpToJSON = require('./lib/bmp_to_json');
 var JSONToBmp = require('./lib/json_to_bmp');
 var byteFunctions = require('./lib/endian_functions');
+var grayscale = require('./lib/filters/grayscale');
+var blueChannel = require('./lib/filters/bluescale')
 
 //Make sure we have the parameters we need
 if (!process.argv[2]) {
@@ -47,7 +49,7 @@ function processBMP(err, data) {
     bmpJSON = bmpToJSON.bmpToJSON(rawBMP, byteFunctions);
 
     //Apply a transform to the JSON object
-    transformBMP(bmpJSON);
+    transformBMP(process.argv[4], bmpJSON);
 
     //Convert JSON back to raw bmp
     rawBMP = JSONToBmp.JSONtoBmp(bmpJSON, byteFunctions);
@@ -56,10 +58,28 @@ function processBMP(err, data) {
     binaryFileOps.writeBinFile(process.argv[3], rawBMP, cleanUp);
 }
 
-//Dispatch the JSON object to the transform functions
-function transformBMP(bmpJSON) {
+//Dispatch the JSON object to the transform functions depending on which transform selected in argument
+function transformBMP(transformStyle, bmpJSON) {
     console.log('Applying transformation...');
 
+    if (transformStyle == 'grayscale' || transformStyle == '-gray') {
+        grayscale.convert(bmpJSON);
+        console.log('grayscale applied');
+    // } else if (transformStyle == 'invert' || transformStyle == '-in') {
+    //     invert.convert(bmpJSON);
+    //     console.log('image inverted');
+    } else if (transformStyle == 'blue' || transformStyle == '-b') {
+        bluescale.convert(bmpJSON);
+        console.log('selecting blue channel');
+    } else if (transformStyle == 'red' || transformStyle == '-r') {
+        redscale.convert(bmpJSON);
+        console.log('selecting red channel');
+    } else if (transformStyle == 'green' || transformStyle == '-g') {
+        greenscale.convert(bmpJSON);
+        console.log('selecting green channel');
+    } else {
+        console.log('Please select a valid transformation');
+    }
 }
 
 //Final operations after file write
