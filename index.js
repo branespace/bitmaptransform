@@ -60,6 +60,11 @@ function processBMP(err, data) {
 function transformBMP(bmpJSON) {
     console.log('Applying transformation...');
 
+    if (process.argv[4] === 'n') {
+        console.log('No transform selected');
+    } else {
+
+    }
 }
 
 //Final operations after file write
