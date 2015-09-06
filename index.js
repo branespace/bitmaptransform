@@ -10,10 +10,10 @@ var transformLoader = [
     require('./lib/filters/bluescale'),
     require('./lib/filters/redscale'),
     require('./lib/filters/greenscale'),
-/*    require('./lib/filters/fliphoriz'),
+    require('./lib/filters/fliphoriz'),
     require('./lib/filters/flipvert'),
     require('./lib/filters/sepia'),
-    require('./lib/filters/invert')*/
+/*  require('./lib/filters/invert')*/
 ];
 
 var transforms = {};
