@@ -13,7 +13,7 @@ var transformLoader = [
     require('./lib/filters/fliphoriz'),
     require('./lib/filters/flipvert'),
     require('./lib/filters/sepia'),
-/*  require('./lib/filters/invert')*/
+    require('./lib/filters/invert')
 ];
 
 var transforms = {};
@@ -34,7 +34,6 @@ transformLoader.sort(function (a, b) {
 });
 
 //Make sure we have the parameters we need
-
 if (!process.argv[2]) {
     console.log('No operation provided: exiting.');
     console.log(' Select --help for help or --list for options');
