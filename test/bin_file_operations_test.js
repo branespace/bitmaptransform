@@ -13,7 +13,7 @@ describe('bin_file_operations', function () {
         }
     });
     it('should return a buffer', function (done) {
-        readBin.readBinFile(__dirname + '/1bit-palette.bmp', function (err, data) {
+        readBin.readBinFile(__dirname + '/palette-bitmap.bmp', function (err, data) {
             expect(Buffer.isBuffer(data)).to.be.equal(true);
             done();
         });
@@ -25,13 +25,13 @@ describe('bin_file_operations', function () {
         });
     });
     it('should return a buffer of correct length', function (done) {
-        readBin.readBinFile(__dirname + '/1bit-palette.bmp', function (err, data) {
-            expect(data.length).to.be.equal(1730);
+        readBin.readBinFile(__dirname + '/palette-bitmap.bmp', function (err, data) {
+            expect(data.length).to.be.equal(11078);
             done();
         });
     });
     it('should write a file to disk', function (done) {
-        readBin.readBinFile(__dirname + '/1bit-palette.bmp', function (err, data) {
+        readBin.readBinFile(__dirname + '/palette-bitmap.bmp', function (err, data) {
             readBin.writeBinFile(newfile, data, function () {
                 expect(fs.existsSync(newfile)).to.be.equal(true);
                 done();

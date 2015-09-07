@@ -17,7 +17,7 @@ gulp.task('jshint', function () {
 
 gulp.task('mocha', function () {
     return gulp.src(fileList)
-        .pipe(gulpMocha());
+        .pipe(gulpMocha({reporter: 'nyan'}));
 });
 
 gulp.task('default', ['jshint', 'mocha']);
