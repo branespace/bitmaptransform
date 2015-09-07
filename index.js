@@ -56,7 +56,7 @@ if (!process.argv[4]) {
     return false;
 }
 
-console.log('Opening file: ' + process.argv[2]);
+console.log('Opening file: ' + process.argv[3]);
 
 //Prep our endianness functions
 byteFunctions.setFunctions();
@@ -124,11 +124,13 @@ function emitError(err, message) {
     console.log(err.errno + ': ' + err.message);
 }
 
+//Display helpfile
 function showHelp() {
     var fs = require('fs');
     console.log(fs.readFileSync('./docs/help').toString('utf8'));
 }
 
+//Display list of transformations
 function listTransforms() {
     var line,
         i,
@@ -138,7 +140,7 @@ function listTransforms() {
     console.log('Available transformations:\n');
     for (i = 0; i < transformLoader.length; i++) {
         spacing = '';
-        line = 10 - transformLoader[i].longFlag.length;
+        line = 16 - transformLoader[i].longFlag.length;
         for (j = 0; j < line; j++) {
             spacing += ' ';
         }

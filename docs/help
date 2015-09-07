@@ -4,10 +4,10 @@ Bitmap Transformer:
         Description: Transforms the input file and writes it as the output file.
 
         Inputfile:
-        Any uncompressed 1/2/4/8/16/24/32-bit bitmap
+        Any uncompressed 1/2/4/8/24/32-bit bitmap
 
         Outputfile:
-        The format is unchanged.  If the file exists, it wil be overwritten.
+        The format is unchanged.  If the file exists, it will be overwritten.
 
         Flags
         --help	View this help page

@@ -13,10 +13,10 @@ Grayscale, sepia, invert colors, flip horizontally, flip vertically, blue channe
 
 A transformation can be called as an option in a couple of different ways:
 * ```--gray``` or ```-y```
-* ```sepia``` or ```-s```
-* ```invert``` or ```-i```
-* ```vertical``` or ```-v```
-* ```horizontal``` or ```-h```
+* ```--sepia``` or ```-s```
+* ```--invert``` or ```-i```
+* ```--vertical``` or ```-v```
+* ```--horizontal``` or ```-h```
 * ```--blue``` or ```-b```
 * ```--red``` or ```-r```
 * ```--green``` or ```-g```
