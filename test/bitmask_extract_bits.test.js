@@ -1,6 +1,6 @@
 "use strict";
 
-var extract = require('../lib/bitmask_extract_bits');
+var extract = require('../lib/bitmask_extract_bits').extractBits;
 var expect = require('chai').expect;
 
 describe('bitmask tests', function() {
