@@ -12,7 +12,6 @@ describe('bmpToJson', function () {
     before(function (done) {
         binReader('test/palette-bitmap.bmp', function (err, data) {
             bmp = data;
-            endianFunction.setFunctions();
             result = bmpToJson.bmpToJSON(bmp, endianFunction);
             done();
         });

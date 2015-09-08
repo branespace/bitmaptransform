@@ -1,7 +1,7 @@
 "use strict";
 
 var expect = require('chai').expect,
-    gray = require('../lib/filters/grayscale').convert;
+    invert = require('../lib/filters/invert').convert;
 
 var testObj = {
     pixelMap: [
@@ -10,13 +10,13 @@ var testObj = {
 
 var expected = {
     pixelMap: [
-        [{blue: 103, green: 103, red: 103}]
+        [{blue: 255- 80, green: 255 - 100, red: 255- 120}]
     ]
 };
 
-describe('filter: grayscale', function () {
-    it('should luminosity scale all colors', function () {
-        gray(testObj);
+describe('filter: invert', function () {
+    it('should invert all colors', function () {
+        invert(testObj);
         expect(testObj).to.deep.equal(expected);
     });
 });

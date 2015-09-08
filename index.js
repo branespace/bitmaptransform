@@ -1,10 +1,11 @@
 "use strict";
 
-var binaryFileOps = require('./lib/bin_file_operations');
-var bmpToJSON = require('./lib/bmp_to_json');
-var JSONToBmp = require('./lib/json_to_bmp');
-var byteFunctions = require('./lib/endian_functions');
+var binaryFileOps = require('./lib/bin_file_operations');   //Reader/Writer
+var bmpToJSON = require('./lib/bmp_to_json');               //Convert BMP to JSON
+var JSONToBmp = require('./lib/json_to_bmp');               //Convert JSON to BMP
+var byteFunctions = require('./lib/endian_functions');      //Endian definitions
 
+//Load available transforms as objects
 var transformLoader = [
     require('./lib/filters/grayscale'),
     require('./lib/filters/bluescale'),
@@ -13,16 +14,22 @@ var transformLoader = [
     require('./lib/filters/fliphoriz'),
     require('./lib/filters/flipvert'),
     require('./lib/filters/sepia'),
-    require('./lib/filters/invert')
+    require('./lib/filters/invert'),
+    {   //Default, no change non-filter
+        name: 'None', shortFlag: '-n', longFlag: '--none', desc: "No Filter",
+        convert: function () {
+        }
+    }
 ];
 
+//Dictionary for transforms
 var transforms = {};
 
+//Store transaforms in dictionary and sort
 for (var i = 0; i < transformLoader.length; i++) {
     transforms[transformLoader[i].shortFlag] = transformLoader[i];
     transforms[transformLoader[i].longFlag] = transformLoader[i];
 }
-
 transformLoader.sort(function (a, b) {
     if (a.shortFlag > b.shortFlag) {
         return 1;
@@ -56,9 +63,6 @@ if (!process.argv[4]) {
 }
 
 console.log('Opening file: ' + process.argv[3]);
-
-//Prep our endianness functions
-byteFunctions.setFunctions();
 
 //Read in our bmp
 binaryFileOps.readBinFile(process.argv[3], processBMP);
@@ -131,19 +135,20 @@ function showHelp() {
 
 //Display list of transformations
 function listTransforms() {
-    var line,
-        i,
-        j,
-        spacing = '';
+    var pad,          //Minimum padding length
+        transform,    //Index of transform
+        space,        //Index of space padding
+        spacing = ''; //Padding string
 
     console.log('Available transformations:\n');
-    for (i = 0; i < transformLoader.length; i++) {
+    for (transform = 0; transform < transformLoader.length; transform++) {
         spacing = '';
-        line = 16 - transformLoader[i].longFlag.length;
-        for (j = 0; j < line; j++) {
+        pad = 16 - transformLoader[transform].longFlag.length;
+        for (space = 0; space < pad; space++) {
             spacing += ' ';
         }
-        console.log('  ' + transformLoader[i].shortFlag + ' ' +
-            transformLoader[i].longFlag + spacing + transformLoader[i].desc);
+        console.log('  ' + transformLoader[transform].shortFlag + ' ' +
+            transformLoader[transform].longFlag + spacing +
+            transformLoader[transform].desc);
     }
 }
